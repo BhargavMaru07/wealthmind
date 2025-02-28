@@ -11,13 +11,9 @@ import {
 import * as React from "react";
 
 export default function EmailTemplate({
-  userName = "Bhargav",
-  type = "budget-alert",
-  data = {
-    percentageUsed: 85,
-    budgetAmount: 4000,
-    totalExpences: 3400,
-  },
+  userName = "",
+  type = "",
+  data = {}
 }) {
   if (type == "monthly-report") {
   }
@@ -30,10 +26,16 @@ export default function EmailTemplate({
         <Body style={styles.body}>
           <Container style={styles.container}>
             <Heading style={styles.title}>Budget Alert</Heading>
-            <Text style={styles.text}>Hello {userName},</Text>
             <Text style={styles.text}>
-              You&rsquo;ve used {data?.percentageUsed.toFixed(1)}% of your
-              monthly budget.
+              Hello{" "}
+              <span style={styles.span}>
+                <b>{userName}</b>
+              </span>
+              ,
+            </Text>
+            <Text style={styles.text}>
+              You&rsquo;ve used <b>{data?.percentageUsed.toFixed(1)}%</b> of
+              your monthly budget.
             </Text>
             <Section style={styles.statsContainer}>
               <div style={styles.stat}>
@@ -123,4 +125,9 @@ const styles = {
     paddingTop: "16px",
     borderTop: "1px solid #e5e7eb",
   },
+  span:{
+    color:"black",
+    fontSize: "16px"
+
+  }
 };
