@@ -123,7 +123,7 @@ export async function bulkDeleteTransaction(transactionIds) {
 
     const accountBalanceChanges = transactions.reduce((acc, transaction) => {
       const change =
-        transaction.type === "EXPENCE"
+        transaction.type === "EXPENSE"
           ? transaction.amount
           : -transaction.amount;
 

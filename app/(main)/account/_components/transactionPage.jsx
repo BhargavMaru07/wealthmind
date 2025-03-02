@@ -202,7 +202,7 @@ const TransactionPage = ({ transactions }) => {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="INCOME">Income</SelectItem>
-              <SelectItem value="EXPENCE">Expense</SelectItem>
+              <SelectItem value="EXPENSE">Expense</SelectItem>
             </SelectContent>
           </Select>
           <Select
@@ -342,10 +342,10 @@ const TransactionPage = ({ transactions }) => {
                   <TableCell
                     className="text-right font-medium"
                     style={{
-                      color: transaction.type === "EXPENCE" ? "red" : "green",
+                      color: transaction.type === "EXPENSE" ? "red" : "green",
                     }}
                   >
-                    {transaction.type === "EXPENCE" ? "-" : "+"}
+                    {transaction.type === "EXPENSE" ? "-" : "+"}
                     {transaction.amount.toFixed(2)}
                   </TableCell>
                   <TableCell>

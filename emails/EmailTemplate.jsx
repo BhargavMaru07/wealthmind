@@ -44,12 +44,12 @@ export default function EmailTemplate({
               </div>
               <div style={styles.stat}>
                 <Text style={styles.text}>Spent So Far</Text>
-                <Text style={styles.heading}>${data?.totalExpences}</Text>
+                <Text style={styles.heading}>${data?.totalExpenses}</Text>
               </div>
               <div style={styles.stat}>
                 <Text style={styles.text}>Remaining</Text>
                 <Text style={styles.heading}>
-                  ${data?.budgetAmount - data?.totalExpences}
+                  ${data?.budgetAmount - data?.totalExpenses}
                 </Text>
               </div>
             </Section>

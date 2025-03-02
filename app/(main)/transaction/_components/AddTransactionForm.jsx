@@ -41,14 +41,13 @@ const AddTransactionForm = ({ accounts, categories }) => {
   } = useForm({
     resolver: zodResolver(transactionSchema),
     defaultValues: {
-      type: "EXPENCE",
+      type: "EXPENSE",
       amount: "",
       description: "",
       accountId: accounts.find((ac) => ac.isDefault)?.id,
       date: new Date(),
       isRecurring: false,
       category: "",
-      recurringInterval: "DAILY",
     },
   });
 
@@ -100,7 +99,7 @@ const AddTransactionForm = ({ accounts, categories }) => {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="INCOME">Income</SelectItem>
-            <SelectItem value="EXPENCE">Expense</SelectItem>
+            <SelectItem value="EXPENSE">Expense</SelectItem>
           </SelectContent>
         </Select>
 

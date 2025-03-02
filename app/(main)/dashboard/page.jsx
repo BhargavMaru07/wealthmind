@@ -21,9 +21,9 @@ const DashboardPage = async () => {
     <div className="px-5 space-y-8">
       {/* budget progress */}
       {defaultAccount && (
-        <BudgetProgress 
+        <BudgetProgress
           initialBudget={budgetData?.budget}
-          currentExpences={budgetData?.currentExpences || 0}
+          currentExpenses={budgetData?.currentexpenses || 0}
         />
       )}
       {/* overview */}

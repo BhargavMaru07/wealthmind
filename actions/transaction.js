@@ -27,13 +27,16 @@ export default async function createTransaction(data) {
       throw new Error("User not Found");
     }
 
-    let account = await db.account.findUnique({
-      id: data.accountId,
-      userId: user.id,
-    });
+   const account = await db.account.findUnique({
+     where: {
+       id: data.accountId,
+       userId: user.id,
+     },
+   });
+
     if (!account) throw new Error("Account Not found");
 
-    let balanceChange = data.type == "EXPENCE" ? -data.amount : data.amount;
+    let balanceChange = data.type == "EXPENSE" ? -data.amount : data.amount;
 
     let newBalance = account.balance.toNumber() + balanceChange;
 

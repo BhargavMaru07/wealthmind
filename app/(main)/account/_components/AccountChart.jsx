@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/select";
 import { SelectItem } from "@radix-ui/react-select";
 import { endOfDay, format, startOfDay, subDays } from "date-fns";
-import { Key } from "lucide-react";
 import React, { useMemo, useState } from "react";
 import {
   Bar,
@@ -49,13 +48,13 @@ const AccountChart = ({ transactions }) => {
       const date = format(new Date(transaction.date), "MMM dd");
 
       if (!acc[date]) {
-        acc[date] = { date, income: 0, expence: 0 };
+        acc[date] = { date, income: 0, expense: 0 };
       }
 
       if (transaction.type === "INCOME") {
         acc[date].income += transaction.amount;
       } else {
-        acc[date].expence += transaction.amount;
+        acc[date].expense += transaction.amount;
       }
 
       return acc;
@@ -71,9 +70,9 @@ const AccountChart = ({ transactions }) => {
     return filteredData.reduce(
       (acc, day) => ({
         income: acc.income + day.income,
-        expence: acc.expence + day.expence,
+        expense: acc.expense + day.expense,
       }),
-      { income: 0, expence: 0 }
+      { income: 0, expense: 0 }
     );
   }, [filteredData]);
 
@@ -109,19 +108,19 @@ const AccountChart = ({ transactions }) => {
           <div className="text-center">
             <p className="text-muted-foreground">Total Expenses</p>
             <p className="text-lg font-bold text-red-500">
-              ${totals.expence.toFixed(2)}
+              ${totals.expense.toFixed(2)}
             </p>
           </div>
           <div className="text-center">
             <p className="text-muted-foreground">Net</p>
             <p
               className={`text-lg font-bold ${
-                totals.income - totals.expence > 0
+                totals.income - totals.expense > 0
                   ? "text-green-500"
                   : "text-red-500"
               }`}
             >
-              ${(totals.income - totals.expence).toFixed(2)}
+              ${(totals.income - totals.expense).toFixed(2)}
             </p>
           </div>
         </div>
@@ -144,7 +143,7 @@ const AccountChart = ({ transactions }) => {
                 axisLine={false}
                 tickFormatter={(value) => `${value}`}
               />
-              <Tooltip formatter={(value)=>[`$${value}`,undefined]} />
+              <Tooltip formatter={(value) => [`$${value}`, undefined]} />
               <Legend />
               <Bar
                 dataKey="income"
@@ -154,8 +153,8 @@ const AccountChart = ({ transactions }) => {
                 radius={[4, 4, 0, 4]}
               />
               <Bar
-                dataKey="expence"
-                name={"Expence"}
+                dataKey="expense"
+                name={"Expense"}
                 fill="#ef4444"
                 // activeBar={<Rectangle fill="gold" stroke="purple" />}
                 radius={[4, 4, 0, 4]}

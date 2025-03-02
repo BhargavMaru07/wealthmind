@@ -76,7 +76,7 @@ model Transaction{
 }
 
 enum TransactionType{
-  EXPENCE
+  EXPENSE
   INCOME
 }
 

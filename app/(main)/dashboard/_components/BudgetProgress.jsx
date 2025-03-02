@@ -16,14 +16,14 @@ import { Check, Pencil, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-const BudgetProgress = ({ initialBudget, currentExpences }) => {
+const BudgetProgress = ({ initialBudget, currentExpenses }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [newBudget, setNewBudget] = useState(
     initialBudget?.amount?.toString() || ""
   );
 
   const percentUsed = initialBudget
-    ? (currentExpences / initialBudget.amount) * 100
+    ? (currentExpenses / initialBudget.amount) * 100
     : 0;
 
   const {
@@ -100,7 +100,7 @@ const BudgetProgress = ({ initialBudget, currentExpences }) => {
               <>
                 <CardDescription>
                   {initialBudget
-                    ? `$${currentExpences.toFixed(
+                    ? `$${currentExpenses.toFixed(
                         2
                       )} of $${initialBudget.amount.toFixed(2)} spent`
                     : `No budget set`}
@@ -127,8 +127,8 @@ const BudgetProgress = ({ initialBudget, currentExpences }) => {
                 percentUsed >= 90
                   ? "bg-red-500"
                   : percentUsed >= 75
-                  ? "bg-yellow-500"
-                  : "bg-green-500"
+                    ? "bg-yellow-500"
+                    : "bg-green-500"
               }`}
             />
             <p className="text-xs text-muted-foreground text-right">

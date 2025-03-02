@@ -3,8 +3,8 @@
 import { db } from "@/lib/prisma";
 import { subDays } from "date-fns";
 
-const ACCOUNT_ID = "82b25fc7-42d0-4ebe-bcc3-d6cfcb75be9a";
-const USER_ID = "d8b954ba-dfa4-4a7d-a3f9-2fd11e235722";
+const ACCOUNT_ID = "4208f216-e339-4172-9b10-f647f6b982c1";
+const USER_ID = "6e42b948-d1aa-4186-95eb-0870936580d5";
 
 // Categories with their typical amount ranges
 const CATEGORIES = {
@@ -14,7 +14,7 @@ const CATEGORIES = {
     { name: "investments", range: [500, 2000] },
     { name: "other-income", range: [100, 1000] },
   ],
-  EXPENCE: [
+  EXPENSE: [
     { name: "housing", range: [1000, 2000] },
     { name: "transportation", range: [100, 500] },
     { name: "groceries", range: [200, 600] },
@@ -55,7 +55,7 @@ export async function seedTransactions() {
 
       for (let j = 0; j < transactionsPerDay; j++) {
         // 40% chance of income, 60% chance of expense
-        const type = Math.random() < 0.4 ? "INCOME" : "EXPENCE";
+        const type = Math.random() < 0.4 ? "INCOME" : "EXPENSE";
         const { category, amount } = getRandomCategory(type);
 
         const transaction = {
