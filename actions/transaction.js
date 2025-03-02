@@ -1,6 +1,8 @@
 "use server"
 
+import aj from "@/lib/arcjet";
 import { db } from "@/lib/prisma";
+import { request } from "@arcjet/next";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 
@@ -25,6 +27,33 @@ export default async function createTransaction(data) {
 
     if (!user) {
       throw new Error("User not Found");
+    }
+
+
+    //ARCJET RATE LIMING
+    //Get Request data for arcjet
+
+    const req = await request();
+
+    //check rate limit
+    const decision = await aj.protect(req,{
+      userId,
+      requested:1  // specify how many token to consume
+    })
+
+    if(decision.isDenied()){
+      if(decision.reason.isRateLimit()){
+        const {remaining,reset} = decision.reason;
+        console.error({
+          code:"RATE_LIMIT_EXCEEDED",
+          details:{
+            remaining,
+            resetInSeconds:reset,
+          }
+        })
+        throw new Error("Too many Transaction requests.Please try again later");
+      }
+        throw new Error("request blocked");
     }
 
    const account = await db.account.findUnique({
