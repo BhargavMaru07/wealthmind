@@ -39,6 +39,7 @@ const AddTransactionForm = ({ accounts, categories }) => {
     watch,
     reset,
     handleSubmit,
+    trigger,
   } = useForm({
     resolver: zodResolver(transactionSchema),
     defaultValues: {
@@ -65,51 +66,54 @@ const AddTransactionForm = ({ accounts, categories }) => {
   const filteredCategories = categories.filter(
     (category) => category.type === type
   );
-  
-  const onSubmit = async(data)=>{
+
+  const onSubmit = async (data) => {
     console.log("onsubmit is call");
     const formData = {
       ...data,
-      amount:parseFloat(data.amount)
-    }
+      amount: parseFloat(data.amount),
+    };
     console.log(formData);
 
-    await transactionFn(formData)
-  }
+    await transactionFn(formData);
+  };
 
-  useEffect(()=>{
-    if(transactionResult?.success && !transactionLoading){
-      toast.success("Transaction created successfully")
-      reset()
-      router.push(`/account/${transactionResult.data.accountId}`)
+  useEffect(() => {
+    if (transactionResult?.success && !transactionLoading) {
+      toast.success("Transaction created successfully");
+      reset();
+      router.push(`/account/${transactionResult.data.accountId}`);
     }
-  },[transactionResult,transactionLoading])
+  }, [transactionResult, transactionLoading]);
 
   const handleScanComplete = (scannedData) => {
     console.log(scannedData);
-    if(scannedData){
-      setValue("amount" , scannedData.amount.toString());
-      setValue("date",new Date(scannedData.date));
-      if(scannedData.description){
-        setValue("description",scannedData.description)
+
+    if (scannedData) {
+      setValue("amount", scannedData.amount.toString());
+      setValue("date", new Date(scannedData.date));
+      if (scannedData.description) {
+        setValue("description", scannedData.description);
       }
       if (scannedData.category) {
-        const capitalizedCategory =
-          scannedData.category.charAt(0).toUpperCase() +
-          scannedData.category.slice(1);
-          console.log(capitalizedCategory);
-        setValue("category", capitalizedCategory);
+        const matchingCategory = categories.find(
+          (category) =>
+            category.name.toLowerCase() === scannedData.category.toLowerCase()
+        );
+        if (matchingCategory) {
+          setValue("category", matchingCategory.id);
+        } else {
+          console.warn("Category not found:", scannedData.category);
+        }
       }
-
     }
   };
 
   return (
-    <form className="space-y-2" onSubmit={handleSubmit(onSubmit)}> 
-
+    <form className="space-y-2" onSubmit={handleSubmit(onSubmit)}>
       {/* AI Reciept Scanner */}
 
-      <ReciptScanner onScanComplete={handleScanComplete}/>
+      <ReciptScanner onScanComplete={handleScanComplete} />
 
       <div className="space-y-2">
         <label className="text-sm font-medium">Type</label>
@@ -180,7 +184,9 @@ const AddTransactionForm = ({ accounts, categories }) => {
       <div className="space-y-2">
         <label className="text-sm font-medium">Categories</label>
         <Select
-          defaultValue={getValues("category")}
+          // defaultValue={getValues("category")}
+          // onValueChange={(value) => setValue("category", value)}
+          value={watch("category")} 
           onValueChange={(value) => setValue("category", value)}
         >
           <SelectTrigger>
