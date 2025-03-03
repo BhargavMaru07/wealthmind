@@ -368,7 +368,7 @@ const TransactionPage = ({ transactions }) => {
                               }
                             </Badge>
                           </TooltipTrigger>
-                          <TooltipContent>
+                          <TooltipContent>  
                             <div className="text-sm">
                               <div className="font-medium">Next Date:</div>
                               <div>
@@ -401,7 +401,7 @@ const TransactionPage = ({ transactions }) => {
                         <DropdownMenuItem
                           onClick={() =>
                             router.push(
-                              `transaction/create?edit=${transaction.id}`
+                              `/transaction/create?edit=${transaction.id}`
                             )
                           }
                         >
@@ -409,7 +409,7 @@ const TransactionPage = ({ transactions }) => {
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           className="text-destructive"
-                          onClick={() => deleteFn([transaction.id])  }
+                          onClick={() => deleteFn([transaction.id])}
                         >
                           Delete
                         </DropdownMenuItem>
