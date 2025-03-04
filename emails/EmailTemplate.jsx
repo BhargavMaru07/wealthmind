@@ -70,16 +70,22 @@ export default function EmailTemplate({
             <Section style={styles.statsContainer}>
               <div style={styles.stat}>
                 <Text style={styles.text}>Total Income</Text>
-                <Text style={styles.heading}>${data?.stats.totalIncome}</Text>
+                <Text style={styles.heading}>
+                  ${data?.stats.totalIncome?.toFixed(2)}
+                </Text>
               </div>
               <div style={styles.stat}>
                 <Text style={styles.text}>Total Expenses</Text>
-                <Text style={styles.heading}>${data?.stats.totalExpenses}</Text>
+                <Text style={styles.heading}>
+                  ${data?.stats.totalExpenses.toFixed(2)}
+                </Text>
               </div>
               <div style={styles.stat}>
                 <Text style={styles.text}>Net</Text>
                 <Text style={styles.heading}>
-                  ${data?.stats.totalIncome - data?.stats.totalExpenses}
+                  $
+                  {data?.stats.totalIncome?.toFixed(2) -
+                    data?.stats.totalExpenses?.toFixed(2)}
                 </Text>
               </div>
             </Section>
@@ -91,8 +97,8 @@ export default function EmailTemplate({
                 {Object.entries(data?.stats.byCategory).map(
                   ([category, amount]) => (
                     <div key={category} style={styles.row}>
-                      <Text style={styles.text}>{category}</Text>
-                      <Text style={styles.text}>${amount}</Text>
+                      <Text style={styles.text}>{category} :</Text>
+                      <Text style={styles.text}> ${amount?.toFixed(2)}</Text>
                     </div>
                   )
                 )}
