@@ -47,6 +47,8 @@ import {
   Search,
   Trash,
   X,
+  CornerUpLeft,
+  CornerUpRight
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
@@ -179,6 +181,29 @@ const TransactionPage = ({ transactions }) => {
     setSelectedIds([]);
   };
 
+
+  //Pagination logic 
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const transactionPerPage = 10;
+  const totalTransaction = filteredAndSortedTransactions.length;
+  const totalPages = Math.ceil(totalTransaction / transactionPerPage);
+
+    const startIndex = (currentPage - 1) * transactionPerPage;
+    const currentTransactions = filteredAndSortedTransactions.slice(
+      startIndex,
+      startIndex + transactionPerPage
+    );
+
+      const goToNextPage = () => {
+        setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+      };
+
+      const goToPrevPage = () => {
+        setCurrentPage((prev) => Math.max(prev - 1, 1));
+      };
+
+
   return (
     <div className="space-y-4">
       {deleteLoading && (
@@ -307,7 +332,7 @@ const TransactionPage = ({ transactions }) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredAndSortedTransactions.length === 0 ? (
+            {currentTransactions.length === 0 ? (
               <TableRow>
                 <TableCell
                   colSpan={7}
@@ -317,7 +342,7 @@ const TransactionPage = ({ transactions }) => {
                 </TableCell>
               </TableRow>
             ) : (
-              filteredAndSortedTransactions.map((transaction) => (
+              currentTransactions.map((transaction) => (
                 <TableRow key={transaction.id}>
                   <TableCell>
                     <Checkbox
@@ -368,7 +393,7 @@ const TransactionPage = ({ transactions }) => {
                               }
                             </Badge>
                           </TooltipTrigger>
-                          <TooltipContent>  
+                          <TooltipContent>
                             <div className="text-sm">
                               <div className="font-medium">Next Date:</div>
                               <div>
@@ -421,6 +446,31 @@ const TransactionPage = ({ transactions }) => {
             )}
           </TableBody>
         </Table>
+      </div>
+
+      {/* Pagination */}
+      <div className="flex justify-center items-center gap-3">
+        <Button
+          variant="outline"
+          className=" hover:text-blue-600 flex items-center gap-2"
+          onClick={goToPrevPage}
+          disabled={currentPage == 1}
+        >
+          {" "}
+          <CornerUpLeft />
+          Prev
+        </Button>
+        <div className="inline-flex items-center h-10 px-4 py-2 border border-input rounded-md bg-background text-sm font-medium text-foreground shadow-sm">
+          Page {currentPage} / {totalPages}
+        </div>
+        <Button
+          variant="outline"
+          className=" hover:text-blue-600 flex items-center gap-2"
+          onClick={goToNextPage}
+          disabled={currentPage == totalPages}
+        >
+          Next <CornerUpRight />
+        </Button>
       </div>
     </div>
   );
